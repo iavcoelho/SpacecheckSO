@@ -3,15 +3,46 @@
 sort_options=""
 reverse_sort=0
 max_lines="-0"
+ 
+print_help() {
+  cat <<EOF
+Usage: ./spacecheck.sh [options] directory1 directory2 ...
 
-echo "SIZE  NAME $(date +%Y%m%d) $@"
-while getopts ":arl:s:d:n:" o; do 
+Options:
+  -l: Specify a maximum number of lines to show.
+  -r: Sort by reverse order.
+  -a: Sort by file name.
+  -h: Display this help text.
+EOF
+}
+
+
+while getopts ":harl:" o; do 
   case "$o" in
     a) sort_options="-k2 "
     ;;
     r) reverse_sort=1
     ;;
-    l)  max_lines="${OPTARG}"
+    l) 
+    if [[ -n "${OPTARG}" && "${OPTARG}" =~ ^[0-9]+$ ]]; then
+        # Check if the argument is numeric
+        max_lines="${OPTARG}"
+      else
+        # Argument is not numeric, so it's a directory name
+        echo "Error: ${OPTARG} is an invalid argument for -l"
+        print_help
+        exit 1
+      fi
+    ;;
+    h) print_help
+      exit
+    ;;
+    \?) print_help
+      exit
+    ;;
+    : ) echo "Option -$OPTARG requires an argument" >&2
+        print_help
+        exit
     ;;
   esac
 done

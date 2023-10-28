@@ -7,8 +7,24 @@ sort_options=""
 reverse_sort=0
 max_lines="-0"
 
-echo "SIZE  NAME $(date +%Y%m%d) $@"
-while getopts ":arl:s:d:n:" o; do 
+print_help() {
+  cat <<EOF
+Usage: ./spacecheck.sh [options] directory1 directory2 ...
+
+Options:
+  -s: Specify a minimum file size.
+  -d: Specify a file's last modification date.
+  -n: Specify a regular expression for file names.
+  -l: Specify a maximum number of lines to show.
+  -r: Sort by reverse order.
+  -a: Sort by file name.
+  -h: Display this help text.
+
+EOF
+}
+
+
+while getopts ":harl:s:d:n:" o; do 
   case "$o" in
     a) sort_options="-k2 "
     ;;
@@ -22,10 +38,21 @@ while getopts ":arl:s:d:n:" o; do
     ;;
     l)  max_lines="${OPTARG}"
     ;;
+    h) print_help
+      exit
+    ;;
+    \?) print_help
+      exit
+    ;;
+    : ) echo "Option -$OPTARG requires an argument" >&2
+        print_help
+        exit
+    ;;
   esac
 done
 shift $((OPTIND-1))
 
+echo "SIZE  NAME $(date +%Y%m%d) $@"
 
 if [[ $sort_options != *"-k2"* ]]; then
   sort_options="-n -k1 "
