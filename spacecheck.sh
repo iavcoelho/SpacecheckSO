@@ -67,12 +67,12 @@ regular_output=""
 error_output=""
 while IFS= read -r -d $'\0' folder; do 
   if find "$folder" >/dev/null 2>&1; then
-    output="$(du -b --max-depth=0 "$folder" | awk '{print $0}')"
-    regular_output+="$output\n"
+    output="$(find "$folder" -type f -regex "$find_name" -newermt @"$find_date" -size "$find_size" -print0 | du -c --files0-from=- -b --max-depth=0 | tail -n1 | awk '{print $1}')"
+    regular_output+="$output\t$folder\n"
   else
     error_output+="NA\t"$folder"\n"
   fi
-done < <(find "$@" -type d -regex "$find_name" -newermt @"$find_date" -size "$find_size" -print0 2>/dev/null)
+done < <(find "$@" -type d -print0 2>/dev/null)
 
 printf "$regular_output" | sort $sort_options | head -n $max_lines
 printf "$error_output" | sort $sort_options | head -n $max_lines
