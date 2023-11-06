@@ -72,6 +72,7 @@ while IFS= read -r -d $'\0' folder; do
   else
     error_output+="NA\t"$folder"\n"
   fi
+
 done < <(find "$@" -type d -print0 2>/dev/null)
 
 printf "$regular_output" | sort $sort_options | head -n $max_lines
