@@ -11,50 +11,11 @@
 \usepackage{graphicx}
 \usepackage{ragged2e}
 \begin{document}
-\begin{figure}
-    \Centering
-    \includegraphics[width=12cm]{deti.png}
-    \vskip 3cm
-\end{figure}
-\begin{center}
-    \Centering
-    \huge{\textbf{Trabalho 1}}
-    \newline
-    \huge{\textbf{Gestão de armazenamento: \newline Monitorização do espaço ocupado}}
-    \vskip 1cm
-    \large{Sistemas Operativos}
-    \vskip 2cm
-    \large{Igor Coelho - 113532}
-    \vfill
-    \large{2023/2024}
-\end{center}
-\thispagestyle{empty}
+\include{cover}
 \tableofcontents
-\chapter{Introdução do trabalho pedido}
-O objetivo deste trabalho é desenvolver dois scripts em \textbf{bash} que permitem ao utilizador monitorizar o espaço ocupado em disco por várias diretorias. Assim, o utilizador pode visualizar a totalidade do espaço ocupado (em bytes) por todos os ficheiros que selecionados dentro em todas as diretorias, passadas ao script por parâmetros, e todas as suas descendentes.
-\section{Spacecheck.sh}
-\textbf{spacecheck.sh} é o primeiro dos scripts a desenvolver. Este permite a visualização do espaço ocupado por ficheiros selecionados em todas as diretorias que lhe são passadas por argumentos, bem como em todas as subdiretorias das mesmas. 
-Nem todos os ficheiros têm que necessariamente ser contabilizados no cálculo do espaço total ocupado pela diretoria.
-Estes, dependendo das opções que são fornecidas, podem ser selecionados usando uma expressão regular (opção \textbf{-n}), através da data máxima de modificação (opção \textbf{-d}) ou através do espaço mínimo ocupado em disco (opção \textbf{-s}).
-\section{Spacerate.sh}
-\textbf{spacerate.sh} é o segundo script a desenvolver. Este permite comparar dois ficheiros que contêm o output de \textbf{spacecheck.sh}. O resultado do script é uma visualização da alteração do espaço ocupado por cada diretoria, ou seja, a diferença entre o espaço ocupado pela diretoria no primeiro ficheiro e no segundo ficheiro. Caso a diretoria não exista em algum dos ficheiros, esta será também representada de modo especial.
-\section{Opções de organização dos resultados}
-Os outputs de ambos os scripts podem ser ordenados de vários modos, dependendo das opções passadas para cada um:
-\begin{itemize}
-    \item Podem ser ordenados por tamanho (Comportamento padrão)
-    \item Podem ser ordenados por nome (opção \textbf{-a})
-    \item Podem ter numero de linhas limitado (opção \textbf{-l})
-    \item Podem ser ordenados por ordem contrária (opção \textbf{-r})
-\end{itemize}
-\newpage
-\chapter{Abordagem de resolução do problema}
-\section{Spacecheck.sh}
-\newpage
-\section{Spacerate.sh}
-\section{Edge cases}
-\newpage
-\chapter{Testagem dos resultados obtidos}
-\section{Metodologia de testagem}
+\include{introducao}
+\include{implementacao}
+\include{testagem}
 \nocite{*}
 \printbibliography[heading=bibintoc]
 \end{document}
