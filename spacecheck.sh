@@ -23,6 +23,7 @@ Options:
 EOF
 }
 
+echo "SIZE  NAME $(date +%Y%m%d) $@"
 
 while getopts ":harl:s:d:n:" o; do 
   case "$o" in
@@ -30,13 +31,52 @@ while getopts ":harl:s:d:n:" o; do
     ;;
     r) reverse_sort=1
     ;;
-    s)  find_size="+${OPTARG}c"
+    s)
+        if [ -z "${OPTARG}" ]; then
+            echo "Error: Option -s missing an argument"
+            help
+            exit 1
+        fi
+        if [ "${OPTARG}" -le 0 ]; then
+            echo "Error: File size needs to be positive"
+            help
+            exit 1
+        fi
+        find_size="+${OPTARG}c"
     ;;
-    d)  find_date="$(date --date "${OPTARG}" +%s)"
+    d)  
+        if [ -z "${OPTARG}" ]; then
+            echo "Error: Option -d missing an argument"
+            help
+            exit 1
+        fi
+        if ! date -d "${OPTARG}" > /dev/null 2>&1; then
+            echo "Error: Invalid date"
+            help
+            exit 1
+        fi
+        find_date="$(date --date "${OPTARG}" +%s)"
     ;;
-    n)  find_name+="${OPTARG}"
+    n)  
+        if [ -z "${OPTARG}" ]; then
+            echo "Error: Option -n missing an argument"
+            help
+            exit 1
+        fi
+        find_name+="${OPTARG}"
     ;;
-    l)  max_lines="${OPTARG}"
+    l)  
+        if [ -z "${OPTARG}" ]; then
+            echo "Error: Option -l missing an argument"
+            help
+            exit 1
+        fi
+        if [ "${OPTARG}" -le 0 ]; then
+            echo "Error: Max line number needs to be positive"
+            help
+            exit 1
+        fi
+        max_lines="${OPTARG}"
     ;;
     h) print_help
       exit
@@ -52,14 +92,12 @@ while getopts ":harl:s:d:n:" o; do
 done
 shift $((OPTIND-1))
 
-echo "SIZE  NAME $(date +%Y%m%d) $@"
-
-if [[ $sort_options != *"-k2"* ]]; then
+if [[ $sort_options != "-k2 " ]]; then
   sort_options="-n -k1 "
-  reverse_sort=$(( -reverse_sort ))
+  reverse_sort=$(( 1 - $reverse_sort ))
 fi
 
-if [[ $reverse_sort == 0 ]]; then
+if [[ $reverse_sort == 1 ]]; then
   sort_options+="-r"
 fi
 
@@ -67,7 +105,7 @@ regular_output=""
 error_output=""
 while IFS= read -r -d $'\0' folder; do 
   if find "$folder" >/dev/null 2>&1; then
-    output="$(find "$folder" -type f -regex "$find_name" -newermt @"$find_date" -size "$find_size" -print0 | du -c --files0-from=- -b --max-depth=0 | tail -n1 | awk '{print $1}')"
+    output="$(find "$folder" -type f -regex "^.*/$find_name$" ! -newermt @"$find_date" -size "$find_size" -print0 | du -c --files0-from=- -b --max-depth=0 | tail -n1 | awk '{print $1}')"
     regular_output+="$output\t$folder\n"
   else
     error_output+="NA\t"$folder"\n"

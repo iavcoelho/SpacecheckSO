@@ -3,19 +3,23 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{minted}
+\usepackage{float}
 \usepackage[hidelinks]{hyperref}
 \usepackage[portuguese]{babel}
 \usepackage[sorting=none, dateabbrev=false, language=portuguese]{biblatex}
 \addbibresource{bibliography.bib}
+\usepackage[margin=10pt,font=small,labelfont=bf]{caption}
+\renewcommand{\thelisting}{\thechapter.\arabic{listing}}
+\renewcommand{\listingscaption}{Código}
 \babelprovide[transforms = hyphen.repeat]{portuguese}
 \usepackage{graphicx}
-\usepackage{ragged2e}
 \begin{document}
 \include{cover}
 \tableofcontents
 \include{introducao}
 \include{implementacao}
 \include{testagem}
+\include{exemplos}
 \nocite{*}
 \printbibliography[heading=bibintoc]
 \end{document}

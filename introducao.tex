@@ -1,12 +1,14 @@
 \chapter{Introdução do trabalho pedido}
 O objetivo deste trabalho é desenvolver dois scripts em \textbf{bash} que permitem ao utilizador monitorizar o espaço ocupado em disco por várias diretorias. Assim, o utilizador pode visualizar a totalidade do espaço ocupado (em bytes) por todos os ficheiros que selecionados dentro em todas as diretorias, passadas ao script por parâmetros, e todas as suas descendentes.
 \section{Spacecheck.sh}
+\label{cap1.1}
 \textbf{spacecheck.sh} é o primeiro dos scripts a desenvolver. Este permite a visualização do espaço ocupado por ficheiros selecionados em todas as diretorias que lhe são passadas por argumentos, bem como em todas as subdiretorias das mesmas. 
 Nem todos os ficheiros têm que necessariamente ser contabilizados no cálculo do espaço total ocupado pela diretoria.
 Estes, dependendo das opções que são fornecidas, podem ser selecionados usando uma expressão regular (opção \textbf{-n}), através da data máxima de modificação (opção \textbf{-d}) ou através do espaço mínimo ocupado em disco (opção \textbf{-s}).
 \section{Spacerate.sh}
 \textbf{spacerate.sh} é o segundo script a desenvolver. Este permite comparar dois ficheiros que contêm o output de \textbf{spacecheck.sh}. O resultado do script é uma visualização da alteração do espaço ocupado por cada diretoria, ou seja, a diferença entre o espaço ocupado pela diretoria no primeiro ficheiro e no segundo ficheiro. Caso a diretoria não exista em algum dos ficheiros, esta será também representada de modo especial.
 \section{Opções de organização dos resultados}
+\label{cap1.3}
 Os outputs de ambos os scripts podem ser ordenados de vários modos, dependendo das opções passadas para cada um:
 \begin{itemize}
     \item Podem ser ordenados por tamanho (Comportamento padrão)
@@ -14,4 +16,3 @@ Os outputs de ambos os scripts podem ser ordenados de vários modos, dependendo 
     \item Podem ter numero de linhas limitado (opção \textbf{-l})
     \item Podem ser ordenados por ordem contrária (opção \textbf{-r})
 \end{itemize}
-\newpage

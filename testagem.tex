@@ -1,2 +1,79 @@
 \chapter{Testagem dos resultados obtidos}
 \section{Metodologia de testagem}
+Ao longo da criação deste script é necessária uma constante
+testagem das funções, para garantir que as funções estão
+corretamente implementadas, que alterações a partes
+distintas do código não afetam as já implementadas e para
+sabermos o progresso já efetuado.
+
+De modo a facilitar o processo de desenvolvimento, podemos
+sempre automatizar esta testagem. Para tal, temos que criar diretórios e ficheiros com nomes,
+tamanhos e datas de modificação distintos. Depois podemos
+executar o nosso script com diversos argumentos e comparar o
+seu output com um ficheiro pre-feito.
+
+Foi-nos também fornecido pelos docentes da unidade
+curricular um ficheiro de teste, permitindo-nos testar a
+mais importante função do nosso script, a contabilização do
+espaço. Tendo a confirmação de que o espaço ocupado é
+corretamente contabilizado por ficheiro e diretoria, podemos
+focar a nossa atenção para todas as outras funcionalidades,
+desde seleção dos ficheiros por nome, data de modificação ou
+tamanho ao modo de ordenamento dos resultados.
+
+\section{Comandos e programas úteis para testagem}
+Tendo então a necessecidade de criação de diretórios,
+necessitaremos de usar o comando \verb|mkdir|. Para a
+criação de ficheiros com tamanho não nulo,
+utilizaremos \verb|truncate|, modificando depois a data de
+última modificação com \verb|touch|. Por fim, para comparar
+o resultado obtido com um resultado expectado, utilizaremos
+o comando \verb|diff|, que dependendo do valor retornado nos
+permite saber se os ficheiros são ou não iguais.
+
+\section{Funções auxiliares}
+
+Para facilitar o processo de criação de testes, procedemos à criação de duas funções auxiliares: \verb|create_file| e
+\verb|test_passed|.
+
+Assumamos que \verb|create_file| aceita por argumento o tamanho do ficheiro a criar, a data da última modificação e o nome do
+ficheiro a criar.
+\begin{minted}{bash}
+create_file() {
+    truncate -s "$1" "./unit_tests/$3"
+    #   Criação de um ficheiro com tamanho predefinido
+    touch -d "$2" "./unit_tests/$3"
+    #   Alteração da data de última modificação
+}
+\end{minted}
+
+Por fim, criamos diversos ficheiros e diretórios
+\begin{listing}[H]
+\begin{minted}{bash}
+    create_file "14M" "Nov 1" "file1.a"
+    create_file "2" "Sep 10" "file\ with\ spaces.spacedout"
+    create_file "4M" "Dec 21" "file\ttabbed"
+    create_file "3M" "Nov 1" "under_scored"
+    create_file "1M" "Nov 1" "hyphened-file"
+    create_file "523M" "Nov 1" "a-script.c"
+    create_file "11M" "Nov 1" "having_extensions.sh"
+    
+    mkdir ./unit_tests/directoryA
+    create_file "1M" "Nov 1" "directoryA/file1.a"
+    create_file "2K" "Sep 10" "directoryA/file\ with\ spaces.spacedout"
+    create_file "3M" "Dec 21" "directoryA/file\ttabbed"
+    create_file "16M" "Nov 1" "directoryA/under_scored"
+    create_file "1K" "Nov 1" "directoryA/hyphened-file"
+    create_file "53M" "Nov 1" "directoryA/a-script.c"
+    create_file "21M" "Nov 1" "directoryA/having_extensions.sh"
+    
+    mkdir ./unit_tests/aaaaaaa
+    create_file "2M" "Sep 10" "aaaaaaa/file\ with\ spaces.spacedout"
+    create_file "30K" "Nov 1" "aaaaaaa/under_scored"
+    create_file "21K" "Nov 1" "aaaaaaa/hyphened-file"
+    create_file "523K" "Nov 1" "aaaaaaa/a-script.c"
+    create_file "210K" "Nov 1" "aaaaaaa/having_extensions.sh"
+\end{minted}
+\caption{Exemplo da criação de ficheiros e diretórios}
+\end{listing}
+E podemos agora chamar diversas vezes o script \textbf{spacecheck.sh} com quaisquer combinações de argumentos.
