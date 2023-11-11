@@ -66,7 +66,7 @@ while getopts ":harl:s:d:n:" o; do
         find_name+="${OPTARG}"
     ;;
     l)  
-    if [[ -n "${OPTARG}" && "${OPTARG}" =~ ^[0-9]+$ ]]; then
+    if [[ "${OPTARG}" == ?([[:digit:]]*) ]]; then
         # Check if the argument is numeric
         max_lines="${OPTARG}"
       else
@@ -116,5 +116,4 @@ while IFS= read -r -d $'\0' folder; do
 
 done < <(find "$@" -type d -print0 2>/dev/null)
 
-printf "$regular_output" | sort $sort_options | head -n $max_lines
-printf "$error_output" | sort $sort_options | head -n $max_lines
+printf "$regular_output$error_output" | sort $sort_options | head -n $max_lines

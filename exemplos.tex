@@ -1,7 +1,60 @@
 \section{Exemplos de testagem}
-\renewcommand{\listingscaption}{Comando}
 Partindo então dos ficheiros e diretórios criados, podemos avaliar os resultados obtidos, incluindo erros e outras exceções.
-\begin{listing}[H]
-\centering
-Estrutura dos ficheiros de teste
-\end{listing}
+
+\VerbatimInput{expected_output/full.out}
+\centering{\textbf{Teste 1: }\verb|./spacecheck.sh unit_tests/|}
+
+\vskip 2cm
+\VerbatimInput{expected_output/full_reversed.out}
+\centering{\textbf{Teste 2: }\verb|./spacecheck.sh -r unit_tests/|}
+
+\vskip 2cm
+\VerbatimInput{expected_output/full_alphabetical.out}
+\centering{\textbf{Teste 3: }\verb|./spacecheck.sh -a unit_tests/|}
+
+\VerbatimInput{expected_output/full_alphabetical_reverse.out}
+\centering{\textbf{Teste 4: }\verb|./spacecheck.sh -ar unit_tests/|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/errors/1.out}
+\centering{\textbf{Teste 5: }\verb|./spacecheck.sh -d unit_tests/date_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/errors/3.out}
+\centering{\textbf{Teste 6: }\verb|./spacecheck.sh -s unit_tests/|}
+\newpage
+\vskip 1cm
+\VerbatimInput{expected_output/errors/6.out}
+\centering{\textbf{Teste 7: }\verb|./spacecheck.sh|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/errors/6.out}
+\centering{\textbf{Teste 8: }\verb|./spacecheck.sh -n|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/date_tests/2.out}
+\centering{\textbf{Teste 9: }\verb|./spacecheck.sh -d "Nov 1" unit_tests/date_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/date_tests/1.out}
+\centering{\textbf{Teste 10: }\verb|./spacecheck.sh -d "n" unit_tests/date_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/regex_tests/2.out}
+\centering{\textbf{Teste 11: }\verb|./spacecheck.sh -n ".*abc" unit_tests/regex_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/regex_tests/1.out}
+\centering{\textbf{Teste 12: }\verb|./spacecheck.sh -n "abc.*" unit_tests/regex_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/size_tests/2.out}
+\centering{\textbf{Teste 13: }\verb|./spacecheck.sh -s "100" unit_tests/size_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/size_tests/4.out}
+\centering{\textbf{Teste 14: }\verb|./spacecheck.sh -s "300" unit_tests/size_tests|}
+
+\vskip 1cm
+\VerbatimInput{expected_output/oneline.out}
+\centering{\textbf{Teste 15: }\verb|./spacecheck.sh -l 1 unit_tests/|}

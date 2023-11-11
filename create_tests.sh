@@ -86,6 +86,8 @@ faketime "Nov 13" ./spacecheck.sh -a "./unit_tests" > "./expected_output/full_al
 test_passed "General 3"
 faketime "Nov 13" ./spacecheck.sh -ar "./unit_tests" > "./expected_output/full_alphabetical_reverse.out"
 test_passed "General 4"
+faketime "Nov 13" ./spacecheck.sh -l 1 "./unit_tests" > "./expected_output/oneline.out"
+test_passed "General 5"
 
 # Regex Tests
 faketime "Nov 13" ./spacecheck.sh -n "abc.*" "./unit_tests/regex_tests" > "./expected_output/regex_tests/1.out"
@@ -140,8 +142,6 @@ faketime "Nov 13" ./spacecheck.sh -n "./unit_tests/date_tests" > "./expected_out
 test_passed "Error 5"
 faketime "Nov 13" ./spacecheck.sh  > "./expected_output/errors/6.out"
 test_passed "Error 6"
-faketime "Nov 13" ./spacecheck.sh  > "./expected_output/errors/7.out"
-test_passed "Error 7"
 
 # Show final result
 final_result
