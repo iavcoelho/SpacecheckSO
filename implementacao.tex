@@ -14,12 +14,12 @@ dos argumentos dados, e executar comandos sobre eles.
 
 Ao realizar um \verb|find| em cada subdiretoria, podemos avaliar as
 permissões de leitura através do seu exit code,
-e apartir daí perceber se o tamanho pode ser calculado na
+e a partir de aí perceber se o tamanho pode ser calculado na
 sua totalidade, ou se há diretórios aos quais não temos
 permissões de acesso, nas quais o espaço ocupado deve ser 
 considerado "NA".
 
-Se o comando for bem sucedido, podemos então executar uma
+Se o comando for bem-sucedido, podemos então executar uma
 cadeia de comandos de modo a obter a totalidade do espaço
 ocupado pela diretoria em estudo.
 \subsection{Argumentos de Entrada}
@@ -56,8 +56,8 @@ shift $((OPTIND-1))
 \end{minted}
 \end{listing}
 
-É no entanto importante ter em conta a ordem do resultado
-, pois por default se for ordenado por tamanho
+É, no entanto importante ter em conta a ordem do resultado,
+pois por default se for ordenado por tamanho
 será por ordem crescente, mas se for por nome será ordenado
 por ordem alfabética, logo a opção (\textbf{-r}) terá
 comportamentos diferentes baseado se é ordenado por nome ou
@@ -137,7 +137,7 @@ seguida de um e apenas um diretório.
 \end{listing}
 Neste caso, o diretório seria consumido pela opção -n, e o
 nosso script correria em todos os diretórios do computador. 
-Então, para impedir tal caso, podemos só verificar se o numero
+Então, para impedir tal caso, podemos só verificar se o número
 de argumentos do programa após retirar as opções introduzidas é
 nulo. Se tal acontecer, estamos perante o caso em questão,
 tendo então que devolver um erro ao utilizador. 
@@ -160,7 +160,7 @@ fi
 \end{listing}
 
 \subsection{Inicialização de variáveis}
-Apartir das seleções possíveis para ficheiros, seja por data
+A partir das seleções possíveis para ficheiros, seja por data
 de modificação máxima, nome de ficheiro ou tamanho máximo,
 podemos fazer três flags para cada uma, \verb|find_name|,
 \verb|find_date| e \verb|find_size|, sendo que cada
@@ -178,9 +178,9 @@ argumentos}
 \end{listing}
 \subsection{Seleção dos ficheiros a contabilizar}
 Inicialmente é feito um \verb|find| para encontrar
-diretorias e subdiretorias.O output é colocado num loop
+diretorias e subdiretorias. O output é colocado num loop
 \verb|while| de modo a ser-nos possível iterar por todas as
-linhas do output, isto é, por todas as diretorias e
+suas linhas, isto é, por todas as diretorias e
 subdiretorias dos argumentos.
 \begin{listing}[H]
 \begin{minted}{bash}
@@ -195,22 +195,28 @@ De seguida, é necessário perceber se nós conseguimos ou não
 aceder à diretoria em causa, pois se não tivermos permissões
 de acesso não conseguimos calcular corretamente o tamanho
 ocupado pela diretoria e os seus ficheiros no disco. Como
-tal podemos executar um comando \verb|find| na diretoria
+tal, podemos executar um comando \verb|find| na diretoria
 e, dependendo do valor retornado, fazer a soma do espaço
 ocupado pelos ficheiros ou apenas indicar o tamanho total
 como sendo "NA".
 \begin{listing}[H]
 \begin{minted}{bash}
 if find "$folder" >/dev/null 2>&1; then
+De seguida, é necessário perceber se nós conseguimos ou não aceder à diretoria em causa, pois se não tivermos permissões de acesso não conseguimos
+calcular corretamente o tamanho ocupado pela diretoria e os seus ficheiros
+no disco. Como tal, podemos executar um comando find na diretoria e, de-
+pendendo do valor retornado, fazer a soma do espaço ocupado pelos ficheiros
+ou apenas indicar o tamanho total como sendo "NA".
+
     (...)
 else
     error_output+="NA\t"$folder"\n"
 fi
 \end{minted}
 \end{listing}
-Nos casos em que é possivel aceder à diretoria, para
+Nos casos em que é possível aceder à diretoria, para
 selecionar os ficheiros pedidos, as variáveis com as opções
-de argumentos são passadas a um find presente no inicio da cadeia de comandos,
+de argumentos são passadas a um find presente no início da cadeia de comandos,
 que procede a enviar todos os ficheiros selecionados para
 du.
 \begin{listing}[H]
@@ -228,9 +234,9 @@ ficheiro em estudo. Então, casos como a existência do padrão
 de regex no path não serão considerados, sendo considerado
 apenas o nome do ficheiro.
 O du é depois configurado para aceitar por input o stdin
-(usando o argumento \verb|-files0-from=-| ), fazendo
+(usando o argumento \verb|-files0-from=-|), fazendo
 automaticamente a contabilização e soma do espaço ocupado
-por todos os ficheiros presentes no diretorio. O output é
+por todos os ficheiros presentes no diretório. O output é
 depois processado com tail e awk para manter apenas os dados
 desejados, e adicionado a uma variável que contém todo o
 output dos casos em que é possível calcular o tamanho
@@ -262,7 +268,7 @@ declare -A old_data
 declare -A new_data
 \end{minted}
 Cada array irá associar um path ao peso que tinha em cada ficheiro.
-Depois podemos só comparar os valores armazenados em cada
+Depois, podemos só comparar os valores armazenados em cada
 array.
 \begin{minted}{bash}
 $while IFS=$'\t' read -r size path; do
@@ -278,7 +284,7 @@ Ao iterar o array \verb|old_data|, podemos obter o espaço
 ocupado por cada diretório em cada um dos ficheiros, e
 fazendo a diferença, obtemos o resultado expectado. Contudo,
 temos que considerar o caso em que o path se encontra no
-array \verb|old_data| mas não no array \verb|new_data|. Caso
+array \verb|old_data|, mas não no array \verb|new_data|. Caso
 isto aconteça, é porque a totalidade do diretório foi
 removido entre a criação dos ficheiros de registo. Como tal,
 este pode ser assinalado como "REMOVED", e a diferença de

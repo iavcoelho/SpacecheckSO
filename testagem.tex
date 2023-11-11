@@ -6,18 +6,18 @@ corretamente implementadas, que alterações a partes
 distintas do código não afetam as já implementadas e para
 sabermos o progresso já efetuado. Como tal, consoante vamos
 desenvolvendo o nosso script, vamos também desenvolvendo mais e
-mais testes, obtendo no final uma suite de testes compreensiva
+mais testes, obtendo no final uma suíte de testes compreensiva
 que visa testar todas as funcionalidades do programa de forma
 extensiva, tentando apanhar quaisquer erros e exceções que o
 script possa encontrar no mundo real.
 
 De modo a facilitar o processo, podemos
-sempre automatizar esta testagem. permitindo assim reduzir
-substâncialmente o tempo gasto em testagem.
+sempre automatizar esta testagem, permitindo assim reduzir
+substancialmente o tempo gasto em testagem.
 Para tal, temos que criar diretórios e ficheiros com nomes,
 tamanhos e datas de modificação distintos. Depois podemos
 executar o nosso script com diversos argumentos e comparar o
-seu output com um ficheiro pre-feito.
+seu output com um ficheiro pré-feito.
 
 Foi-nos também fornecido pelo docente da unidade
 curricular um ficheiro de teste, permitindo-nos comparar a 
@@ -29,7 +29,7 @@ desde seleção dos ficheiros por nome, data de modificação ou
 tamanho ao modo de ordenamento dos resultados.
 
 É, no entanto, importante notar que \textbf{o nosso script não é 100\%
-deterministico}, devido à presença da data no cabeçalho do
+determinístico}, devido à presença da data no cabeçalho do
 output. Uma vez que alguns erros impedem a impressão do
 cabeçalho, não podemos apenas remover a primeira linha do
 output, pelo que utilizaremos a biblioteca \verb|faketime| para
@@ -37,7 +37,7 @@ alterar a data utilizada pelo script sem necessidade de alterar
 a data do computador.
 
 \section{Comandos e programas úteis para testagem}
-Tendo então a necessecidade de criação de diretórios,
+Tendo então a necessidade de criação de diretórios,
 necessitaremos de usar o comando \verb|mkdir|. Para a
 criação de ficheiros com tamanho não nulo,
 utilizaremos \verb|truncate|, modificando depois a data de
@@ -53,7 +53,7 @@ ficheiros são ou não iguais.
 \section{Funções auxiliares}
 
 Para facilitar o processo de criação de testes, procedemos à criação de duas funções auxiliares: \verb|create_file| e
-\verb|test_passed|. No final, queremos também saber se todos os testes foram bem sucedidos ou não, tendo então a função
+\verb|test_passed|. No final, queremos também saber se todos os testes foram bem-sucedidos ou não, tendo então a função
 \verb|final_result|.
 
 Comecemos pela criação de ficheiros. Assumamos que \verb|create_file| aceita por argumento o tamanho do ficheiro a
@@ -67,7 +67,7 @@ create_file() {
 }
 \end{minted}
 
-Depois, para verificar se um dado teste foi bem sucedido, podemos só analisar o código de retorno do comando. Depois
+Depois, para verificar se um dado teste foi bem-sucedido, podemos só analisar o código de retorno do comando. Depois
 podemos imprimir uma mensagem e atualizar uma variável \verb|all_tests_passed|.
 
 \begin{minted}{bash}
@@ -81,7 +81,7 @@ test_passed() {
 }
 \end{minted}
 
-Depois, precisamos de no final do programa verificar se todos os testes foram bem sucedidos ou não, tendo então a função
+Depois, precisamos de no final do programa verificar se todos os testes foram bem-sucedidos ou não, tendo então a função
 \verb|final_result| para facilitar o processo.
 
 \begin{minted}{bash}
@@ -104,5 +104,4 @@ Por fim, criamos diversos ficheiros e diretórios
 \caption{Exemplo da criação de ficheiros e diretórios}
 \end{listing}
 E podemos agora chamar diversas vezes o script \textbf{spacecheck.sh} com quaisquer combinações de argumentos, incluindo
-algumas que propositadamente erradas, de modo a testar o error-handling do nosso script.
-
+algumas que propositadamente erradas, de modo a testar o error handling do nosso script.
