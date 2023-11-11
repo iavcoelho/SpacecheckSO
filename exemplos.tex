@@ -58,6 +58,23 @@ Partindo então dos ficheiros e diretórios criados, podemos avaliar os resultad
 \vskip 1cm
 \VerbatimInput{expected_output/oneline.out}
 \centering{\textbf{Teste 15: }\verb|./spacecheck.sh -l 1 unit_tests/|}
-\vfill
-\centering{\verb|Todo o código relativo a este projeto pode ser encontrado no|}
-\textbf{\href{https://github.com/iavcoelho/spacecheckSO}{GitHub}}
+
+\vskip 1cm
+\VerbatimInput{expected_output/spacerate/1.out}
+\centering{\textbf{Teste 16: }\verb|./spacerate.sh old.out new.out|}
+\newpage
+
+\VerbatimInput{expected_output/spacerate/2.out}
+\centering{\textbf{Teste 17: }\verb|./spacerate.sh -a old.out new.out|}
+\vskip 1cm
+
+\VerbatimInput{expected_output/spacerate/3.out}
+\centering{\textbf{Teste 18: }\verb|./spacerate.sh -r old.out new.out|}
+\vskip 1cm
+
+\VerbatimInput{expected_output/spacerate/5.out}
+\centering{\textbf{Teste 19: }\verb|./spacerate.sh -l 1 old.out new.out|}
+\vskip 1cm
+
+\VerbatimInput{expected_output/spacerate/6.out}
+\centering{\textbf{Teste 20: }\verb|./spacecheck.sh -l "aa" old.out new.out|}

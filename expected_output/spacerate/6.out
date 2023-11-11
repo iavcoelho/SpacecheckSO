@@ -1,0 +1,8 @@
+Error: aa is an invalid argument for -l
+Usage: ./spacecheck.sh [options] directory1 directory2 ...
+
+Options:
+  -l: Specify a maximum number of lines to show.
+  -r: Sort by reverse order.
+  -a: Sort by file name.
+  -h: Display this help text.

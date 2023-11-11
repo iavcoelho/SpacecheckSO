@@ -1,0 +1,10 @@
+SIZE  NAME 20231113 -a (...)/old.out (...)new.out
+-11422	./unit_tests/special_chars	REMOVED
+272	./unit_tests/spacerate
+-300	./unit_tests/size_tests
+323	./unit_tests/regex_tests
+-NA	./unit_tests/permissionless/unaccessable_dir	REMOVED
+NA	./unit_tests/permissionless
+848	./unit_tests/new_dir	NEW
+0	./unit_tests/date_tests
+NA	./unit_tests

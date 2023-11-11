@@ -46,6 +46,8 @@ while getopts ":harl:" o; do
   esac
 done
 
+echo "SIZE  NAME $(date +%Y%m%d) $@"
+shift $((OPTIND-1))
 if [[ $sort_options != *"-k2"* ]]; then
   sort_options="-n -k1 "
   reverse_sort=$(( -reverse_sort ))
@@ -55,7 +57,6 @@ if [[ $reverse_sort == 0 ]]; then
   sort_options+="-r"
 fi
 
-shift $((OPTIND-1))
 
 declare -A old_data
 declare -A new_data
@@ -80,7 +81,7 @@ for key in "${!old_data[@]}"; do
     output="$(printf "%s\t%s\n" "$difference" "$key")"
     result+="$output\n"
   else
-    result+="$(printf "-${old_data["$key"]}\t$key\tREMOVED\n")\n"
+    result+="$(printf -- "-${old_data["$key"]}\t$key\tREMOVED\n")\n"
   fi
 done
 

@@ -1,19 +1,19 @@
 \chapter{Testagem dos resultados obtidos}
-\section{Metodologia de testagem}
 Ao longo da criação deste script é necessária uma constante
 testagem das funções, para garantir que as funções estão
 corretamente implementadas, que alterações a partes
 distintas do código não afetam as já implementadas e para
-sabermos o progresso já efetuado. Como tal, consoante vamos
+sabermos o progresso já efetuado \cite{george2004structured}. Como tal, consoante vamos
 desenvolvendo o nosso script, vamos também desenvolvendo mais e
 mais testes, obtendo no final uma suíte de testes compreensiva
 que visa testar todas as funcionalidades do programa de forma
 extensiva, tentando apanhar quaisquer erros e exceções que o
 script possa encontrar no mundo real.
 
+\section{Metodologia de testagem}
 De modo a facilitar o processo, podemos
 sempre automatizar esta testagem, permitindo assim reduzir
-substancialmente o tempo gasto em testagem.
+substancialmente o tempo gasto neste processo.
 Para tal, temos que criar diretórios e ficheiros com nomes,
 tamanhos e datas de modificação distintos. Depois podemos
 executar o nosso script com diversos argumentos e comparar o
@@ -24,9 +24,8 @@ curricular um ficheiro de teste, permitindo-nos comparar a
 contabilização do espaço ocupado com um valor que sabemos ser 
 correto. Tendo a confirmação de que o espaço ocupado é
 corretamente contabilizado por ficheiro e diretoria, podemos
-focar a nossa atenção para todas as outras funcionalidades,
-desde seleção dos ficheiros por nome, data de modificação ou
-tamanho ao modo de ordenamento dos resultados.
+focar a nossa atenção para todas as outras funcionalidades, como ordenação de output ou escolha de ficheiros a
+contabilizar.
 
 É, no entanto, importante notar que \textbf{o nosso script não é 100\%
 determinístico}, devido à presença da data no cabeçalho do
@@ -57,7 +56,8 @@ Para facilitar o processo de criação de testes, procedemos à criação de dua
 \verb|final_result|.
 
 Comecemos pela criação de ficheiros. Assumamos que \verb|create_file| aceita por argumento o tamanho do ficheiro a
-criar, a data da última modificação e o nome do ficheiro a criar.
+criar, a data da última modificação e o nome do ficheiro a criar (Código \ref{create-file}).
+\begin{listing}[H]
 \begin{minted}{bash}
 create_file() {
     truncate -s "$1" "./unit_tests/$3"
@@ -66,10 +66,14 @@ create_file() {
     #   Alteração da data de última modificação
 }
 \end{minted}
+\caption{Função para criação de ficheiros}
+\label{create-file}
+\end{listing}
 
 Depois, para verificar se um dado teste foi bem-sucedido, podemos só analisar o código de retorno do comando. Depois
-podemos imprimir uma mensagem e atualizar uma variável \verb|all_tests_passed|.
+podemos imprimir uma mensagem e atualizar uma variável \verb|all_tests_passed| (Código \ref{test-passed}).
 
+\begin{listing}[H]
 \begin{minted}{bash}
 test_passed() {
     passed_all_tests=$(($passed_all_tests + $?))
@@ -80,10 +84,13 @@ test_passed() {
     fi
 }
 \end{minted}
-
+\caption{Verificação do resultado do teste}
+\label{test-passed}
+\end{listing}
 Depois, precisamos de no final do programa verificar se todos os testes foram bem-sucedidos ou não, tendo então a função
 \verb|final_result| para facilitar o processo.
 
+\begin{listing}[H]
 \begin{minted}{bash}
 final_result() {
     if [[ $passed_all_tests == "0" ]]; then
@@ -93,6 +100,8 @@ final_result() {
     fi
 }
 \end{minted}
+\caption{Output do resultado final da testagem}
+\end{listing}
 
 Por fim, criamos diversos ficheiros e diretórios
 \begin{listing}[H]
@@ -105,3 +114,6 @@ Por fim, criamos diversos ficheiros e diretórios
 \end{listing}
 E podemos agora chamar diversas vezes o script \textbf{spacecheck.sh} com quaisquer combinações de argumentos, incluindo
 algumas que propositadamente erradas, de modo a testar o error handling do nosso script.
+
+Para testagem do \textbf{spacerate.sh} podemos apenas adicionar ou remover diretorias e ficheiros e chamar o script,
+comparando os outputs com um pré-feito.
