@@ -1,0 +1,8 @@
+SIZE  NAME 20231113 ./unit_tests
+11422	./unit_tests/special_chars
+1010	./unit_tests/size_tests
+100	./unit_tests/regex_tests
+40	./unit_tests/date_tests
+NA	./unit_tests/permissionless/unaccessable_dir
+NA	./unit_tests/permissionless
+NA	./unit_tests
