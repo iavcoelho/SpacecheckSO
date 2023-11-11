@@ -24,7 +24,7 @@ while getopts ":harl:" o; do
     r) reverse_sort=1
     ;;
     l) 
-    if [[ -n "${OPTARG}" && "${OPTARG}" =~ ^[0-9]+$ ]]; then
+    if [[ "${OPTARG}" == ?([[:digit:]]*) ]]; then
         # Check if the argument is numeric
         max_lines="${OPTARG}"
       else
