@@ -28,7 +28,6 @@ while getopts ":harl:" o; do
         # Check if the argument is numeric
         max_lines="${OPTARG}"
       else
-        # Argument is not numeric, so it's a directory name
         echo "Error: ${OPTARG} is an invalid argument for -l"
         print_help
         exit 1

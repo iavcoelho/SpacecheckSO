@@ -1,7 +1,7 @@
 #!/bin/bash
 
 find_name=".*"
-find_date=0
+find_date=$(date -d "n" +%s)
 find_size="+0"
 sort_options=""
 reverse_sort=0
@@ -21,9 +21,9 @@ Options:
   -h: Display this help text.
 
 EOF
+exit 0
 }
 
-echo "SIZE  NAME $(date +%Y%m%d) $@"
 
 while getopts ":harl:s:d:n:" o; do 
   case "$o" in
@@ -32,51 +32,48 @@ while getopts ":harl:s:d:n:" o; do
     r) reverse_sort=1
     ;;
     s)
-        if [ -z "${OPTARG}" ]; then
-            echo "Error: Option -s missing an argument"
-            help
+        if [[ -z ${OPTARG} ]]; then
+            echo "error: option -s is missing an argument"
+            print_help
             exit 1
         fi
-        if [ "${OPTARG}" -le 0 ]; then
-            echo "Error: File size needs to be positive"
-            help
+        if ! [[ "${OPTARG}" == ?([[:digit:]]*) ]]; then
+            echo "Error: File size has to be a positive number"
+            print_help
             exit 1
         fi
         find_size="+${OPTARG}c"
     ;;
     d)  
-        if [ -z "${OPTARG}" ]; then
-            echo "Error: Option -d missing an argument"
-            help
+        if [[ -z ${OPTARG} ]]; then
+            echo "Error: Option -d is missing an argument"
+            print_help
             exit 1
         fi
-        if ! date -d "${OPTARG}" > /dev/null 2>&1; then
+        if !(date -d "${OPTARG}") > /dev/null 2>&1; then
             echo "Error: Invalid date"
-            help
+            print_help
             exit 1
         fi
         find_date="$(date --date "${OPTARG}" +%s)"
     ;;
     n)  
-        if [ -z "${OPTARG}" ]; then
-            echo "Error: Option -n missing an argument"
-            help
+        if [[ -z ${OPTARG} ]]; then
+            echo "Error: Option -n is missing an argument"
+            print_help
             exit 1
         fi
         find_name+="${OPTARG}"
     ;;
     l)  
-        if [ -z "${OPTARG}" ]; then
-            echo "Error: Option -l missing an argument"
-            help
-            exit 1
-        fi
-        if [ "${OPTARG}" -le 0 ]; then
-            echo "Error: Max line number needs to be positive"
-            help
-            exit 1
-        fi
+    if [[ -n "${OPTARG}" && "${OPTARG}" =~ ^[0-9]+$ ]]; then
+        # Check if the argument is numeric
         max_lines="${OPTARG}"
+      else
+        echo "Error: The maximum number of lines has to be a positive number"
+        print_help
+        exit 1
+      fi
     ;;
     h) print_help
       exit
@@ -90,7 +87,13 @@ while getopts ":harl:s:d:n:" o; do
     ;;
   esac
 done
+echo "SIZE  NAME $(date +%Y%m%d) $@"
 shift $((OPTIND-1))
+if [[ "$#" == "0" ]]; then
+    echo "An error has occured parsing the arguments"
+    print_help
+    exit 1
+fi
 
 if [[ $sort_options != "-k2 " ]]; then
   sort_options="-n -k1 "

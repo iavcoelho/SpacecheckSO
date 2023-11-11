@@ -12,11 +12,11 @@ Depois, usando um \verb|while loop| é-nos possível iterar
 por cada linha do resultado, ou seja, por cada subdiretoria
 dos argumentos dados, e executar comandos sobre eles.
 
-Ao realizar um find em cada subdiretoria, podemos avaliar as
-permissões de leitura através do exit code do \verb|find|,
+Ao realizar um \verb|find| em cada subdiretoria, podemos avaliar as
+permissões de leitura através do seu exit code,
 e apartir daí perceber se o tamanho pode ser calculado na
 sua totalidade, ou se há diretórios aos quais não temos
-permissões de acesso, e como tal o espaço ocupado deve ser
+permissões de acesso, nas quais o espaço ocupado deve ser 
 considerado "NA".
 
 Se o comando for bem sucedido, podemos então executar uma
@@ -42,23 +42,13 @@ while getopts ":harl:s:d:n:" o; do
     ;;
     r) reverse_sort=1
     ;;
-    s)  find_size="+${OPTARG}c"
+    s) find_size="+${OPTARG}c"
     ;;
-    d)  find_date="$(date --date "${OPTARG}" +%s)"
+    d) find_date="$(date --date "${OPTARG}" +%s)"
     ;;
-    n)  find_name+="${OPTARG}"
+    n) find_name+="${OPTARG}"
     ;;
-    l)  max_lines="${OPTARG}"
-    ;;
-    h) print_help
-      exit
-    ;;
-    \?) print_help
-      exit
-    ;;
-    : ) echo "Option -$OPTARG requires an argument" >&2
-        print_help
-        exit
+    l) max_lines="${OPTARG}"
     ;;
   esac
 done
@@ -92,6 +82,83 @@ fi
 \end{minted}
 \end{listing}
 
+\subsection{Verificação dos argumentos de entrada}
+
+Alguns dos parâmetros de entrada carecem de verificação extra,
+pois necessitam de um input do utilizador que nem sempre estará
+correto. Então todos os parâmetros que necessitam deste input
+terão que sofrer uma verificação dos seus argumentos.
+
+
+Em todos os casos teremos que primeiro verificar se o valor
+introduzido não é nulo, isto é, se foi de facto introduzido
+algum valor:
+\begin{minted}{bash}
+if [[ -z ${optarg} ]]; then
+    echo "error: Option -* is missing an argument"
+    print_help
+    exit 1
+fi
+\end{minted}
+
+De seguida, cada opção sofre uma verificação diferente,
+dependendo da sua utilização. Por exemplo, na opção \verb|-d| a
+data tem que ser válida, mas nas opções \verb|-l| e \verb|-s|
+temos apenas que garantir que o valor é numérico e positivo.
+\begin{listing}[H]
+\begin{minted}{bash}
+if ! [[ ${OPTARG} =~ "^[0-9]+$" ]]; then
+    echo "Error: Argument has to be a positive number"
+    print_help
+    exit 1
+fi
+\end{minted}
+\caption{Verificação de um valor numérico positivo}
+\end{listing}
+
+\begin{listing}[H]
+\begin{minted}{bash}
+if !(date -d "${OPTARG}") > /dev/null 2>&1; then
+    echo "Error: Invalid date"
+    print_help
+    exit 1
+fi
+\end{minted}
+\caption{Verificação de uma data}
+\end{listing}
+
+Sobra por fim um caso específico, em que é escolhida a opção
+\verb|-n|, mas não é introduzida uma expressão regular para
+verificação de ficheiros. Em vez disso, a opção \verb|-n| é
+seguida de um e apenas um diretório.
+\begin{listing}[H]
+    \centering
+    \textbf{Exemplo:} \verb|./spacecheck.sh -n "./unit_tests"|
+\end{listing}
+Neste caso, o diretório seria consumido pela opção -n, e o
+nosso script correria em todos os diretórios do computador. 
+Então, para impedir tal caso, podemos só verificar se o numero
+de argumentos do programa após retirar as opções introduzidas é
+nulo. Se tal acontecer, estamos perante o caso em questão,
+tendo então que devolver um erro ao utilizador. 
+Uma vantagem desta verificação é que impede também a chamada do
+script sem qualquer argumento de entrada, ou diretório a analisar.
+\begin{listing}[H]
+    \centering
+    \textbf{Exemplo:} \verb|./spacecheck.sh|
+\end{listing}
+\begin{listing}[H]
+\begin{minted}{bash}
+shift $((OPTIND-1))
+if [[ "$#" == "0" ]]; then
+    echo "An error has occured parsing the arguments"
+    print_help
+    exit 1
+fi
+\end{minted}
+\caption{Verificação da existência de diretórios}
+\end{listing}
+
 \subsection{Inicialização de variáveis}
 Apartir das seleções possíveis para ficheiros, seja por data
 de modificação máxima, nome de ficheiro ou tamanho máximo,
@@ -104,7 +171,7 @@ os ficheiros sejam selecionados.
 \begin{minted}{bash}
 find_name=".*"
 find_size="+0"
-find_date="0"
+find_date=$(date -d "n" +%s)
 \end{minted}
 \caption{Inicialiação de variáveis relacionadas com
 argumentos}
@@ -187,7 +254,7 @@ printf "$error_output" | sort $sort_options | head -n $max_lines
     \includegraphics[height=15cm]{Fluxograma_Spacerate.png}
     \caption{Funcionamento do \textbf{spacecheck.sh}}
 \end{figure}
-O \textbf{spacerate} é um script muito mais fácil de
+O \textbf{spacerate} é um script relativamente mais fácil de
 implementar. O princípio básico desta implementação é 
 a utilização de dois arrays associativos. 
 \begin{minted}{bash}
@@ -233,7 +300,7 @@ for key in "${!old_data[@]}"; do
   fi
 done
 \end{minted}
-Temos é também que iterar pelas chaves do segundo array,
+Temos também que iterar pelas chaves do segundo array,
 para obter todos os diretórios presentes no segundo
 ficheiro, mas não no primeiro.
 Caso isto aconteça, é porque o diretório foi criado entre a
