@@ -1,0 +1,12 @@
+Error: File size has to be a positive number
+Usage: ./spacecheck.sh [options] directory1 directory2 ...
+
+Options:
+  -s: Specify a minimum file size.
+  -d: Specify a file's last modification date.
+  -n: Specify a regular expression for file names.
+  -l: Specify a maximum number of lines to show.
+  -r: Sort by reverse order.
+  -a: Sort by file name.
+  -h: Display this help text.
+

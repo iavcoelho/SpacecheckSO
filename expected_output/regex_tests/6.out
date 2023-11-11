@@ -1,0 +1,2 @@
+SIZE  NAME 20231113 -n [^abc] ./unit_tests/regex_tests
+70	./unit_tests/regex_tests
