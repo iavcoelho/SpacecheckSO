@@ -107,7 +107,7 @@ data tem que ser válida, mas nas opções \verb|-l| e \verb|-s|
 temos apenas que garantir que o valor é numérico e positivo.
 \begin{listing}[H]
 \begin{minted}{bash}
-if ! [[ ${OPTARG} =~ "^[0-9]+$" ]]; then
+if ! [[ "${OPTARG}" == ?([[:digit:]]*) ]]; then
     echo "Error: Argument has to be a positive number"
     print_help
     exit 1
