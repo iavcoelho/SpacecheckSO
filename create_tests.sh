@@ -6,7 +6,6 @@ rm -rf ./unit_tests
 # testar todas as funcoes do nosso programa, desde a contabilização de espaço e capacidade de seleção de ficheiros até
 # ordenamento do resultado.
 mkdir ./unit_tests
-
 passed_all_tests="0";
 
 # Seja create file uma função com parâmetros size, date e name
@@ -78,6 +77,7 @@ create_file "300" "Nov 10" "size_tests/d"
 create_file "400" "Nov 10" "size_tests/e"
 
 # Run the tests
+echo "Testing spacecheck.sh"
 faketime "Nov 13" ./spacecheck.sh "./unit_tests" | diff - "./expected_output/full.out"
 test_passed "General 1"
 faketime "Nov 13" ./spacecheck.sh -r "./unit_tests" | diff - "./expected_output/full_reversed.out"
@@ -145,6 +145,37 @@ test_passed "Error 6"
 
 # Show final result
 final_result
+passed_all_tests="0"
+echo "Testing spacerate.sh"
+# Test of spacerate
+mkdir ./unit_tests/spacerate
+faketime "Nov 13" ./spacecheck.sh "./unit_tests" > "./unit_tests/spacerate/old.out"
+rm -rf ./unit_tests/special_chars
+mkdir ./unit_tests/new_dir
+create_file "14124" "Nov 1" "new_dir/file1.a"
+create_file "323" "Oct 13" "new_dir/file2.a"
+create_file "341" "Nov 1" "new_dir/under_scored-and-hyphened"
+create_file "144" "Nov 1" "new_dir/file1.a"
+create_file "1423" "Nov 1" "new_dir/file1.a"
+create_file "184" "Nov 1" "new_dir/file1.a"
+rm ./unit_tests/size_tests/d
+rmdir ./unit_tests/permissionless/unaccessable_dir
+create_file "323" "Nov 1" "regex_tests/new"
 
+faketime "Nov 13" ./spacecheck.sh "./unit_tests" > ./unit_tests/spacerate/new.out
+
+faketime "Nov 13" ./spacerate.sh "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/1.out
+test_passed "Spacerate 1"
+faketime "Nov 13" ./spacerate.sh -a "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/2.out
+test_passed "Spacerate 2"
+faketime "Nov 13" ./spacerate.sh -r "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/3.out
+test_passed "Spacerate 3"
+faketime "Nov 13" ./spacerate.sh -ar "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/4.out
+test_passed "Spacerate 4"
+faketime "Nov 13" ./spacerate.sh -l 1 "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/5.out
+test_passed "Spacerate 5"
+faketime "Nov 13" ./spacerate.sh -l "aa" "./unit_tests/spacerate/old.out" "./unit_tests/spacerate/new.out" | diff - ./expected_output/spacerate/6.out
+test_passed "Spacerate 6"
+final_result
 # Clean the testing directory
 # rm -rf ./unit_tests
